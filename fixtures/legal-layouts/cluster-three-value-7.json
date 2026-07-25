@@ -1,0 +1,13 @@
+{
+  "name": "Three-family cluster of value 7",
+  "expectLegal": true,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "flux", "value": 7 },
+        { "family": "prism", "value": 7 },
+        { "family": "pulse", "value": 7 }
+      ]
+    }
+  ]
+}

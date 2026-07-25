@@ -1,0 +1,15 @@
+{
+  "name": "Flux sequence 5-6-7-8-9",
+  "expectLegal": true,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "flux", "value": 5 },
+        { "family": "flux", "value": 6 },
+        { "family": "flux", "value": 7 },
+        { "family": "flux", "value": 8 },
+        { "family": "flux", "value": 9 }
+      ]
+    }
+  ]
+}

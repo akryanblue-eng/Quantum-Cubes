@@ -1,0 +1,13 @@
+{
+  "name": "Mixed-family run 3-4-5",
+  "expectLegal": false,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "spark", "value": 3 },
+        { "family": "flux", "value": 4 },
+        { "family": "spark", "value": 5 }
+      ]
+    }
+  ]
+}

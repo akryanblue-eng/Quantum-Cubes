@@ -1,0 +1,14 @@
+{
+  "name": "Four-family cluster of value 10",
+  "expectLegal": true,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "spark", "value": 10 },
+        { "family": "flux", "value": 10 },
+        { "family": "prism", "value": 10 },
+        { "family": "pulse", "value": 10 }
+      ]
+    }
+  ]
+}

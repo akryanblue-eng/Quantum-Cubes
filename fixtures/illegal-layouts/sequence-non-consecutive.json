@@ -1,0 +1,13 @@
+{
+  "name": "Non-consecutive spark sequence 3-4-6",
+  "expectLegal": false,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "spark", "value": 3 },
+        { "family": "spark", "value": 4 },
+        { "family": "spark", "value": 6 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,427 @@
+/*
+ * Quantum Cubes — restrained, original visual identity.
+ * Mobile-first. Deep charcoal field with four distinct family hues, each also
+ * carrying a symbol so legality and identity never rely on color alone.
+ */
+
+:root {
+  --bg: #12131a;
+  --panel: #1c1e27;
+  --panel-2: #23263180;
+  --ink: #eef0f7;
+  --ink-dim: #a7abbd;
+  --line: #333750;
+  --accent: #6be7c8;
+  --legal: #57d38c;
+  --illegal: #ff7a7a;
+  --accepted: #7cc8ff;
+
+  --spark: #f2b134;
+  --flux: #4aa3ff;
+  --prism: #b07cff;
+  --pulse: #57d38c;
+
+  --touch: 48px;
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.4;
+}
+
+#app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 12px 12px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.app-header {
+  text-align: center;
+  padding: 8px 0 0;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  letter-spacing: 0.06em;
+  background: linear-gradient(120deg, var(--accent), var(--prism));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tagline {
+  margin: 2px 0 0;
+  color: var(--ink-dim);
+  font-size: 0.85rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+
+.panel h2 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-note {
+  margin: 0 0 10px;
+  color: var(--ink-dim);
+  font-size: 0.8rem;
+}
+
+.turn {
+  font-size: 0.75rem;
+  color: var(--ink-dim);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 8px;
+}
+
+.empty-hint {
+  color: var(--ink-dim);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* ---- Tiles ---- */
+
+.group-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: var(--touch);
+  align-items: center;
+}
+
+.tile {
+  min-width: var(--touch);
+  min-height: var(--touch);
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font: inherit;
+  font-weight: 700;
+  color: #10121a;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.tile .tile-symbol {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.tile .tile-value {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.family-spark {
+  background: var(--spark);
+}
+.family-flux {
+  background: var(--flux);
+}
+.family-prism {
+  background: var(--prism);
+}
+.family-pulse {
+  background: var(--pulse);
+}
+
+.tile.is-selected {
+  border-color: var(--ink);
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+  transform: translateY(-2px);
+}
+
+button.tile:focus-visible,
+.group-header:focus-visible,
+.group-body:focus-visible,
+.sandbox-tools button:focus-visible,
+.rack-sort button:focus-visible,
+.commit:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---- Groups ---- */
+
+.group-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.draft-group.legal {
+  border-color: var(--legal);
+}
+.draft-group.illegal {
+  border-color: var(--illegal);
+}
+
+.group-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  min-height: var(--touch);
+  background: var(--panel-2);
+  border: none;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.group-header.is-selected {
+  background: #2f3450;
+}
+
+.group-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.group-body {
+  width: 100%;
+  display: block;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-top: 1px dashed var(--line);
+  cursor: pointer;
+  text-align: left;
+}
+
+.badge {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.badge.legal {
+  background: rgba(87, 211, 140, 0.18);
+  color: var(--legal);
+}
+
+.badge.illegal {
+  background: rgba(255, 122, 122, 0.16);
+  color: var(--illegal);
+}
+
+/* ---- Sandbox tools ---- */
+
+.sandbox-tools,
+.rack-sort {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.sandbox-tools button,
+.rack-sort button {
+  min-height: var(--touch);
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #262a3a;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.sandbox-tools button.danger {
+  border-color: var(--illegal);
+  color: var(--illegal);
+}
+
+.rack-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 14px 0 8px;
+  flex-wrap: wrap;
+}
+
+.rack-head h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.rack-sort {
+  margin-bottom: 0;
+}
+
+.rack-drop {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--panel-2);
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* ---- Commit bar ---- */
+
+.commit-bar {
+  position: sticky;
+  bottom: 8px;
+  z-index: 5;
+}
+
+.status {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-height: 1.2em;
+}
+
+.status-legal {
+  color: var(--legal);
+}
+.status-illegal {
+  color: var(--illegal);
+}
+.status-accepted {
+  color: var(--accepted);
+}
+.status-neutral {
+  color: var(--ink-dim);
+}
+
+.commit {
+  width: 100%;
+  min-height: 52px;
+  border-radius: 12px;
+  border: none;
+  font: inherit;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  color: #08130f;
+  background: linear-gradient(120deg, var(--accent), var(--legal));
+  cursor: pointer;
+  transition: transform 120ms ease;
+}
+
+.commit:hover {
+  transform: translateY(-1px);
+}
+
+.commit:disabled {
+  background: #33384a;
+  color: var(--ink-dim);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---- Ledger ---- */
+
+.ledger-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ledger-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 0.82rem;
+}
+
+.ledger-hash {
+  color: var(--accent);
+  font-family: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
+}
+
+.ledger-empty {
+  color: var(--ink-dim);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.app-footer {
+  text-align: center;
+  color: var(--ink-dim);
+  font-size: 0.72rem;
+  padding: 4px 8px 0;
+}
+
+/* ---- Motion & responsiveness ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+@media (min-width: 560px) {
+  .app-header h1 {
+    font-size: 2.2rem;
+  }
+}

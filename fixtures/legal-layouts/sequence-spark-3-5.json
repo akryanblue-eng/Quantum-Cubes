@@ -1,0 +1,13 @@
+{
+  "name": "Spark sequence 3-4-5",
+  "expectLegal": true,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "spark", "value": 3 },
+        { "family": "spark", "value": 4 },
+        { "family": "spark", "value": 5 }
+      ]
+    }
+  ]
+}

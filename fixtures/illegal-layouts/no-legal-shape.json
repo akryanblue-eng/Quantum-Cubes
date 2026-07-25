@@ -1,0 +1,13 @@
+{
+  "name": "Three unrelated tiles form no legal shape",
+  "expectLegal": false,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "spark", "value": 3 },
+        { "family": "flux", "value": 7 },
+        { "family": "prism", "value": 11 }
+      ]
+    }
+  ]
+}

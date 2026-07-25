@@ -1,0 +1,12 @@
+{
+  "name": "Two-tile group is too short",
+  "expectLegal": false,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "spark", "value": 3 },
+        { "family": "spark", "value": 4 }
+      ]
+    }
+  ]
+}
