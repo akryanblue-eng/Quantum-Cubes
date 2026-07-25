@@ -1,0 +1,20 @@
+{
+  "name": "A legal layout of one sequence and one cluster",
+  "expectLegal": true,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "prism", "value": 1 },
+        { "family": "prism", "value": 2 },
+        { "family": "prism", "value": 3 }
+      ]
+    },
+    {
+      "tiles": [
+        { "family": "spark", "value": 12 },
+        { "family": "flux", "value": 12 },
+        { "family": "pulse", "value": 12 }
+      ]
+    }
+  ]
+}

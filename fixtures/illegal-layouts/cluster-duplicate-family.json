@@ -1,0 +1,13 @@
+{
+  "name": "Cluster of value 7 with a repeated family",
+  "expectLegal": false,
+  "groups": [
+    {
+      "tiles": [
+        { "family": "spark", "value": 7 },
+        { "family": "flux", "value": 7 },
+        { "family": "spark", "value": 7 }
+      ]
+    }
+  ]
+}
