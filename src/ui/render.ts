@@ -2,12 +2,16 @@ import type { GameState, Group } from '../contracts/game-state';
 import type { Tile } from '../contracts/tile';
 import type { TurnDraft } from '../contracts/turn-draft';
 import type { GameEvent } from '../contracts/game-event';
+import type { Puzzle } from '../contracts/puzzle';
 import { FAMILY_LABEL } from '../contracts/tile';
 import { validateGroup } from '../engine/validate-group';
 import type { LayoutValidation } from '../engine/validate-layout';
 
+export type GameMode = 'free' | 'puzzle';
+
 /** Everything render needs to draw one frame of the app. */
 export interface ViewModel {
+  mode: GameMode;
   committed: GameState;
   draft: TurnDraft;
   layout: LayoutValidation;
@@ -15,6 +19,11 @@ export interface ViewModel {
   selectedTileId: string | null;
   selectedGroupId: string | null;
   status: { tone: 'legal' | 'illegal' | 'accepted' | 'neutral'; message: string };
+  puzzle: Puzzle | null;
+  solved: boolean;
+  solveOps: number;
+  draftOps: number;
+  codeError: string | null;
 }
 
 function escape(input: string): string {
@@ -92,6 +101,49 @@ function ledger(events: GameEvent[]): string {
   return `<ol class="ledger-list">${rows}</ol>`;
 }
 
+function modeSwitch(vm: ViewModel): string {
+  const btn = (mode: GameMode, label: string) =>
+    `<button class="mode-btn ${vm.mode === mode ? 'is-active' : ''}" data-action="mode-${mode}" ` +
+    `aria-pressed="${vm.mode === mode}">${label}</button>`;
+  return `<div class="mode-switch" role="group" aria-label="Game mode">${btn('free', 'Free Play')}${btn('puzzle', 'Puzzle')}</div>`;
+}
+
+function puzzlePanel(vm: ViewModel): string {
+  if (vm.mode !== 'puzzle') return '';
+  const code = vm.puzzle ? escape(vm.puzzle.code) : '—';
+  const victory = vm.solved
+    ? `<div class="victory" role="status" aria-live="assertive">🎉 Puzzle solved in ${vm.solveOps} operation(s)! Press “New puzzle” to keep going.</div>`
+    : '';
+  const err = vm.codeError
+    ? `<p class="code-error" role="alert">${escape(vm.codeError)}</p>`
+    : '';
+  return `
+    <section class="panel puzzle-panel" aria-labelledby="puzzle-title">
+      <h2 id="puzzle-title">Puzzle</h2>
+      <p class="objective">Objective: place <strong>every tile</strong> into legal groups and commit once to <strong>clear your rack</strong>.</p>
+      <div class="puzzle-code-row">
+        <span class="puzzle-code" aria-label="Puzzle code">${code}</span>
+        <button data-action="copy-code" aria-label="Copy puzzle code">Copy</button>
+      </div>
+      <p class="ops-counter">Operations this attempt: <strong>${vm.solved ? vm.solveOps : vm.draftOps}</strong></p>
+      ${victory}
+      <div class="puzzle-tools" role="group" aria-label="Puzzle actions">
+        <button data-action="new-puzzle">New puzzle</button>
+        <button data-action="restart-puzzle">Restart</button>
+      </div>
+      <div class="load-code">
+        <label for="puzzle-code-input">Load a shared code</label>
+        <div class="load-code-row">
+          <input id="puzzle-code-input" type="text" inputmode="text" autocomplete="off"
+            placeholder="QC1-…" aria-label="Puzzle code to load" />
+          <button data-action="load-code">Load</button>
+        </div>
+        ${err}
+      </div>
+    </section>
+  `;
+}
+
 export function renderApp(vm: ViewModel): string {
   const rackTiles = vm.draft.draftRack
     .map((t) => tileButton(t, { selected: vm.selectedTileId === t.id, interactive: true }))
@@ -107,13 +159,16 @@ export function renderApp(vm: ViewModel): string {
       ? '<p class="empty-hint">No draft groups yet. Select a tile and tap “New group”.</p>'
       : `<ul class="group-list">${vm.draft.draftGroups.map((g) => draftGroup(g, vm)).join('')}</ul>`;
 
-  const commitDisabled = vm.layout.legal ? '' : 'disabled';
+  const commitDisabled = vm.layout.legal && !(vm.mode === 'puzzle' && vm.solved) ? '' : 'disabled';
 
   return `
     <header class="app-header">
       <h1>Quantum&nbsp;Cubes</h1>
       <p class="tagline">Experiment freely. Commit atomically.</p>
+      ${modeSwitch(vm)}
     </header>
+
+    ${puzzlePanel(vm)}
 
     <section class="panel committed" aria-labelledby="committed-title">
       <h2 id="committed-title">Committed table <span class="turn">turn ${vm.committed.turn}</span></h2>

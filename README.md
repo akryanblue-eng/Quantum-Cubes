@@ -26,7 +26,7 @@ npm run build    # type-check and produce a production build in dist/
 Open the dev server URL in a mobile viewport (or your browser's device toolbar)
 to play the prototype.
 
-## What's in this slice
+## What's in the game
 
 - A deterministic starting rack and a shared committed table.
 - A protected **Quantum Sandbox** for draft manipulation.
@@ -40,6 +40,15 @@ to play the prototype.
 - A small **event ledger** of accepted commits.
 - Deterministic **state hashing** for committed states.
 
+### Puzzle Mode (v0.2)
+
+- Switch to **Puzzle** in the header for deterministic, seed-based challenges.
+- Victory is **Clear the Rack** — place every tile into legal groups and commit
+  once. Any legal rack-clearing solution wins.
+- Shareable **puzzle codes** (`QC1-…`), a random **New puzzle**, **Restart**, an
+  **operations** counter, and **Load a shared code** — all client-side, no
+  backend. See [`docs/PUZZLE_MODE.md`](docs/PUZZLE_MODE.md).
+
 ## Architecture
 
 ```
@@ -47,6 +56,7 @@ src/
   contracts/     # pure data shapes: tile, game-state, turn-draft, move-result, game-event
   engine/        # pure, DOM-independent rules: validate-group, validate-layout,
                  # commit-turn, hash-state, draft-ops, initial-state
+  puzzle/        # deterministic puzzle generation, codes, victory (Puzzle Mode)
   replay/        # reconstruct committed state from the event ledger
   ui/            # app controller, tap interactions, DOM rendering
   styles/        # app.css
