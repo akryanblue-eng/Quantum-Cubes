@@ -1,13 +1,22 @@
 # Roadmap
 
-This slice delivers the core loop only: rack, Quantum Sandbox, live legality,
-atomic commit, replayable ledger, deterministic hashing. Everything below is
-**future work and is intentionally not implemented yet.**
+The core loop (rack, Quantum Sandbox, live legality, atomic commit, replayable
+ledger, deterministic hashing) shipped first. **Puzzle Mode v0.2** shipped next.
+Everything below Puzzle Mode is **future work and is intentionally not
+implemented yet.**
 
-## Puzzle mode
+## Puzzle mode — delivered (v0.2)
 
-Curated turn-start states with a target the player must reach in one legal
-commit. Deterministic seeds; shareable puzzle codes.
+Deterministic, seed-based puzzles with shareable codes. Victory is **clear the
+rack** — use every tile in one legal atomic commit. See
+[`PUZZLE_MODE.md`](PUZZLE_MODE.md). Follow-ups still open:
+
+- **Goal specifications** ("create four groups", "preserve this cluster", "solve
+  in exactly two rearrangements") — a v0.3 challenge system.
+- **Daily "Quantum Collapse"** — one shared seeded board per day, ranked by
+  fewest operations rather than fastest time. Needs a small backend later; the
+  operation counter already exists client-side.
+- **Drag-and-drop** interaction polish alongside the current tap model.
 
 ## Local AI personalities
 
