@@ -30,7 +30,8 @@ to play the prototype.
 
 - A deterministic starting rack and a shared committed table.
 - A protected **Quantum Sandbox** for draft manipulation.
-- Tap-based tile movement between rack and sandbox.
+- Tap, keyboard, **and Pointer-Events drag-and-drop** tile movement between rack
+  and sandbox — with a subtle "quantum tether" and safe snap-back on cancel.
 - Create, split, merge, and reorder draft groups.
 - Live legal / illegal feedback per group and overall.
 - A **Commit** button enabled only when the whole layout is legal.
@@ -58,7 +59,8 @@ src/
                  # commit-turn, hash-state, draft-ops, initial-state
   puzzle/        # deterministic puzzle generation, codes, victory (Puzzle Mode)
   replay/        # reconstruct committed state from the event ledger
-  ui/            # app controller, tap interactions, DOM rendering
+  ui/            # app controller, tap interactions, drag-and-drop, gesture
+                 # resolution (pure), DOM rendering
   styles/        # app.css
 fixtures/        # legal-layouts/ and illegal-layouts/ JSON, checked by tests
 tests/           # Vitest specs — run without loading the UI

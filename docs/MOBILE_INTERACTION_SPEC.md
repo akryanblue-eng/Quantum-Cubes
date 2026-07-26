@@ -31,6 +31,37 @@ touch screens and keyboard-operable:
   merge the two.
 - **Sort the rack** — **Sort · value** or **Sort · family**.
 
+## Drag-and-drop (v0.2.1)
+
+Drag is layered **on top of** tap and keyboard, never replacing them. It uses
+Pointer Events (not HTML5 drag-and-drop) so it works consistently across touch
+and mouse.
+
+- A press only becomes a drag after the pointer moves past a small threshold, so
+  a quick tap still falls through to tap-select.
+- **Drag a tile** from the rack or a group onto:
+  - a group → move it into that group,
+  - another tile in the same group → reorder,
+  - the rack → return it to the rack,
+  - the "start a new group" drop zone → split it into a new group.
+- **Drag a group header** onto another group → merge them.
+- A faint **quantum tether** and an origin shadow show where the dragged tile
+  came from until the drop resolves.
+- Valid drop targets are outlined; an invalid target shows a dashed warning.
+- Releasing outside any target, or pressing **Escape** mid-drag, cancels with no
+  change — rejected drops snap back.
+
+Every completed gesture is routed through the same pure draft operations as tap
+and keyboard, so **one completed drag counts as exactly one operation**, and the
+committed state is never touched until an atomic commit.
+
+Implementation notes: the pointer is captured on the persistent root element (so
+a mid-drag re-render can't strip the event stream), and the rack and group drop
+zones are `div role="button"` (not `<button>`) so tile buttons can nest inside
+them as valid HTML while remaining keyboard-operable via Enter/Space. Interactive
+tiles nested inside a role="button" drop zone is a deliberate, documented
+trade-off to keep keyboard "drop into this group" working in this slice.
+
 ## Accessibility requirements
 
 - **Color + symbol**: every tile shows its family symbol and value, so legality

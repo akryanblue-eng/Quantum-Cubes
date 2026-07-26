@@ -537,6 +537,72 @@ button.tile:focus-visible,
   font-weight: 600;
 }
 
+/* ---- Drag and drop ---- */
+
+/* Draggable elements own their touch gestures so a drag doesn't scroll. */
+.tile,
+.group-header {
+  touch-action: none;
+}
+
+body.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.new-group-drop {
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  text-align: center;
+  color: var(--ink-dim);
+  font-size: 0.85rem;
+}
+
+.drag-ghost {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.92;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.55);
+}
+
+.drag-origin-shadow {
+  position: fixed;
+  z-index: 998;
+  pointer-events: none;
+  border: 2px dashed var(--accent);
+  border-radius: 10px;
+  opacity: 0.35;
+}
+
+.quantum-tether {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  pointer-events: none;
+}
+
+.quantum-tether-line {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+  opacity: 0.5;
+}
+
+.drop-ok {
+  outline: 3px solid var(--legal);
+  outline-offset: 2px;
+}
+
+.drop-no {
+  outline: 3px dashed var(--illegal);
+  outline-offset: 2px;
+}
+
 /* ---- Motion & responsiveness ---- */
 
 @media (prefers-reduced-motion: reduce) {

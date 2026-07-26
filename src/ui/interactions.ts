@@ -41,4 +41,15 @@ export function wireInteractions(root: HTMLElement, handlers: InteractionHandler
       handlers.action(actionEl.dataset.action!);
     }
   });
+
+  // Keyboard operability for the div role="button" drop zones (rack + groups).
+  // Real <button> controls (tiles, headers, actions) handle Enter/Space natively.
+  root.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    const target = event.target as HTMLElement | null;
+    if (target && target.matches('[data-group-body][role="button"]')) {
+      event.preventDefault();
+      handlers.tapGroupBody(target.dataset.groupBody!);
+    }
+  });
 }
