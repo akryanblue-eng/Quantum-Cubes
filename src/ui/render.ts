@@ -77,10 +77,10 @@ function draftGroup(
     `<button class="group-header ${headerSelected ? 'is-selected' : ''}" ` +
     `data-group-header="${group.id}" aria-pressed="${headerSelected}">` +
     `<span class="group-name">Group ${escape(group.id.replace('g-', ''))}</span>${badge}</button>` +
-    `<button class="group-body" data-group-body="${group.id}" ` +
+    `<div class="group-body" role="button" tabindex="0" data-group-body="${group.id}" ` +
     `aria-label="Move selected tile into group ${escape(group.id)}">` +
     `<div class="group-tiles">${tiles || '<span class="empty-hint">tap to drop</span>'}</div>` +
-    `</button>` +
+    `</div>` +
     `</li>`
   );
 }
@@ -189,6 +189,10 @@ export function renderApp(vm: ViewModel): string {
 
       <div class="draft-groups">${draftGroups}</div>
 
+      <div class="new-group-drop" data-drop="new-group">
+        Drop a tile here to start a new group
+      </div>
+
       <div class="rack" aria-labelledby="rack-title">
         <div class="rack-head">
           <h3 id="rack-title">Your rack</h3>
@@ -197,9 +201,9 @@ export function renderApp(vm: ViewModel): string {
             <button data-action="sort-family">Sort · family</button>
           </div>
         </div>
-        <button class="rack-drop" data-group-body="__rack__" aria-label="Move selected tile to rack">
+        <div class="rack-drop" role="button" tabindex="0" data-group-body="__rack__" aria-label="Move selected tile to rack">
           <div class="group-tiles rack-tiles">${rackTiles || '<span class="empty-hint">rack empty</span>'}</div>
-        </button>
+        </div>
       </div>
     </section>
 

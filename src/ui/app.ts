@@ -27,6 +27,8 @@ import {
 import { decodePuzzleCode } from '../puzzle/puzzle-code';
 import { renderApp, type ViewModel, type GameMode } from './render';
 import { wireInteractions } from './interactions';
+import { wireDragAndDrop } from './drag';
+import { applyGesture, type Gesture } from './gesture';
 
 const RACK_DROP_ID = '__rack__';
 
@@ -74,7 +76,18 @@ class QuantumCubesController {
       tapGroupHeader: (id) => this.tapGroupHeader(id),
       action: (name) => this.action(name),
     });
+    wireDragAndDrop(this.root, { onGesture: (g) => this.applyDragGesture(g) });
     this.loadFreePlay();
+  }
+
+  /** Route a completed drag gesture through the same pure ops as tap/keyboard. */
+  private applyDragGesture(gesture: Gesture): void {
+    const { draft, changed } = applyGesture(this.draft, gesture);
+    if (!changed) return;
+    this.draft = draft;
+    this.selectedTileId = null;
+    this.selectedGroupId = null;
+    this.afterMutation();
   }
 
   // ---- Mode loading ----

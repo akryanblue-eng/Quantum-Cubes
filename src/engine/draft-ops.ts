@@ -165,6 +165,41 @@ export function mergeGroups(draft: TurnDraft, groupIdA: string, groupIdB: string
   );
 }
 
+/**
+ * Move a tile within its own group so it sits immediately before `beforeTileId`.
+ * If the target is missing the tile is appended. No-op when moving a tile before
+ * itself. Records exactly one operation.
+ */
+export function reorderWithinGroup(
+  draft: TurnDraft,
+  groupId: string,
+  tileId: string,
+  beforeTileId: string,
+): TurnDraft {
+  if (tileId === beforeTileId) return draft;
+  const group = draft.draftGroups.find((g) => g.id === groupId);
+  if (!group) return draft;
+  const moving = group.tiles.find((t) => t.id === tileId);
+  if (!moving) return draft;
+
+  const without = group.tiles.filter((t) => t.id !== tileId);
+  let insertAt = without.findIndex((t) => t.id === beforeTileId);
+  if (insertAt < 0) insertAt = without.length;
+  const reordered = [
+    ...without.slice(0, insertAt),
+    moving,
+    ...without.slice(insertAt),
+  ];
+
+  const groups = draft.draftGroups.map((g) =>
+    g.id === groupId ? { id: g.id, tiles: reordered.map(cloneTile) } : cloneGroup(g),
+  );
+  return record(
+    { ...draft, draftGroups: groups },
+    { kind: 'reorder-group', detail: { groupId, tileId, beforeTileId } },
+  );
+}
+
 /** Sort the tiles inside a single group by value then family. */
 export function sortGroup(draft: TurnDraft, groupId: string): TurnDraft {
   const groups = draft.draftGroups.map((g) =>

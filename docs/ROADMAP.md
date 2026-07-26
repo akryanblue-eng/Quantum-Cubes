@@ -16,7 +16,10 @@ rack** — use every tile in one legal atomic commit. See
 - **Daily "Quantum Collapse"** — one shared seeded board per day, ranked by
   fewest operations rather than fastest time. Needs a small backend later; the
   operation counter already exists client-side.
-- **Drag-and-drop** interaction polish alongside the current tap model.
+- **Drag-and-drop** interaction polish alongside the current tap model —
+  **delivered (v0.2.1)**. Pointer-Events drag for move / reorder / split / merge,
+  with a quantum tether and safe snap-back, routed through the same pure draft
+  operations. See [`MOBILE_INTERACTION_SPEC.md`](MOBILE_INTERACTION_SPEC.md).
 
 ## Local AI personalities
 
